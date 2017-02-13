@@ -28,14 +28,14 @@ def about():
 @app.route('/contact', methods=["POST", "GET"])
 def contact():
     """Render the website's contact page."""
-    c_form = Form()
+    c_form = Form(request.form)
     
     if request.method == "POST":
         if c_form.validate_on_submit():
-            user_name = c_form["name"]
-            user_email = c_form["email"]
-            subject = c_form["subject"]
-            msg = c_form["message"]
+            user_name = c_form.name.data
+            user_email = c_form.email.data
+            subject = c_form.subject.data
+            msg = c_form.message.data
             
             send_email(user_name, user_email, subject, msg)
             
@@ -74,7 +74,7 @@ def page_not_found(error):
 
 def send_email(from_name, from_addr, subject, msg):
     to_name = 'Thomas'
-    to_addr = '@yahoo.com'
+    to_addr = '@gmail.com'
     message = """From: {} <{}> To: {} <{}> Subject: {} {} """
     message_to_send = message.format(from_name, from_addr, to_name, to_addr, subject, msg)
     
